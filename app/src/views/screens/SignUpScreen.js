@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {SafeAreaView, View, Text, TextInput, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/color';
@@ -7,6 +7,61 @@ import STYLES from '../../styles';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 
 const SignUpScreen = ({navigation}) => {
+
+//for Name
+const  [name, setName] = useState('');
+const  [nameError, setNameError] = useState('');
+  //for Email
+const  [email, setEmail] = useState('');
+const  [emailError, setEmailError] = useState('');
+
+//For password
+const  [password,setPassword] = useState('');
+const  [passwordError,setPasswordError] = useState('');
+
+const  [message, setMessage] = useState('');
+
+const signUp = async()=>{
+  if(email!="" && password!="" && name!=""){
+    await fetch('',{          //Dynamic link should be here
+      method: 'POST',
+      headers:{
+        'Accept': 'application/json',
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        'name': name,
+        'email': email,
+        'password': password
+      })
+
+    }).then(res => res.json())
+    .then(resData => {
+      setMessage(resData.message)
+    })
+  }
+  if(name!=""){
+    alert(name);
+    setNameError('');
+  }else{
+    setNameError('Hey ! Name should not be empty..');
+  }
+  if(email!=""){
+    alert(email);
+    setEmailError('');
+  }else{
+    setEmailError('Hey ! email should not be empty..');
+  }
+
+    if(password!=""){
+    alert(password);
+    setPasswordError('');
+  }else{
+    setPasswordError('Your password should not be empty..');
+  }
+}
+
+
   return (
     <SafeAreaView
       style={{paddingHorizontal: 20, flex: 1, backgroundColor: COLORS.white}}>
@@ -47,7 +102,12 @@ const SignUpScreen = ({navigation}) => {
               size={20}
               style={STYLES.inputIcon}
             />
-            <TextInput placeholder="Name" style={STYLES.input} />
+            <TextInput 
+                placeholder="Name" 
+                style={STYLES.input} 
+                value={name}
+                onChangeText={(name) => setName(name)}
+                />
           </View>
           <View style={STYLES.inputContainer}>
             <Icon
@@ -56,7 +116,12 @@ const SignUpScreen = ({navigation}) => {
               size={20}
               style={STYLES.inputIcon}
             />
-            <TextInput placeholder="Email" style={STYLES.input} />
+            <TextInput 
+                placeholder="Email"
+                 style={STYLES.input}
+                 value={email}
+                 onChangeText={(anything) => setEmail(anything)}
+                 />
           </View>
           <View style={STYLES.inputContainer}>
             <Icon
@@ -69,10 +134,12 @@ const SignUpScreen = ({navigation}) => {
               placeholder="Password"
               style={STYLES.input}
               secureTextEntry
+              value={password}
+              onChangeText={(password) => setPassword(password)}
             />
           </View>
           <View style={STYLES.btnPrimary}>
-            <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 18}}>
+            <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 18}} onPress={signUp}>
               Sign Up
             </Text>
           </View>

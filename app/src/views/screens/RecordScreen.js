@@ -7,6 +7,60 @@ import STYLES from '../../styles';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 
 const RecordScreen = ({navigation}) => {
+
+//for Roll number
+const  [rollNo, setRollNo] = useState('');
+const  [rollNoError, setRollNoError] = useState('');
+  //for Student Name
+const  [studentName, setStudentName] = useState('');
+const  [studentNameError, setStudentNameError] = useState('');
+
+//For Course
+const  [course,setcourse] = useState('');
+const  [courseError,setCourseError] = useState('');
+
+const  [message, setMessage] = useState('');
+
+const Record = async()=>{
+  if(rollNo!="" && studentName!="" && coursee!=""){
+    await fetch('',{          //Dynamic link should be here
+      method: 'POST',
+      headers:{
+        'Accept': 'application/json',
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        'name': name,
+        'email': email,
+        'password': password
+      })
+
+    }).then(res => res.json())
+    .then(resData => {
+      setMessage(resData.message)
+    })
+  }
+  if(rollNo!=""){
+    alert(rollNo);
+    setRollNoError('');
+  }else{
+    setRollNoError('Hey ! rollNo should not be empty..');
+  }
+  if(studentName!=""){
+    alert(studentName);
+    setStudentNameError('');
+  }else{
+    setStudentNameError('Hey ! studentName should not be empty..');
+  }
+
+    if(course!=""){
+    alert(coucourserse);
+    setCourseError('');
+  }else{
+    setCourseError('Your course should not be empty..');
+  }
+}
+
   return (
     <SafeAreaView
       style={{paddingHorizontal: 20, flex: 1, backgroundColor: COLORS.white}}>
@@ -47,7 +101,12 @@ const RecordScreen = ({navigation}) => {
               size={20}
               style={STYLES.inputIcon}
             /> */}
-            <TextInput placeholder="Roll Number" style={STYLES.input} />
+            <TextInput 
+              placeholder="Roll Number"
+              style={STYLES.input} 
+              value={rollNo}
+              onChangeText={(rollNo) => setRollNo(rollNo)}
+              />
           </View>
           <View style={STYLES.inputContainer}>
             {/* <Icon
@@ -57,7 +116,12 @@ const RecordScreen = ({navigation}) => {
               size={20}
               style={STYLES.inputIcon}
             /> */}
-            <TextInput placeholder="Student Name" style={STYLES.input} />
+            <TextInput 
+              placeholder="Student Name" 
+              style={STYLES.input} 
+              value={studentName}
+              onChangeText={(studentName) => setStudentName(studentName)}
+              />
           </View>
           <View style={STYLES.inputContainer}>
             {/* <Icon
@@ -66,10 +130,15 @@ const RecordScreen = ({navigation}) => {
               size={20}
               style={STYLES.inputIcon}
             /> */}
-            <TextInput  placeholder="Course" style={STYLES.input}/>
+            <TextInput  
+              placeholder="Course" 
+              style={STYLES.input}
+              value={course}
+              onChangeText={(course) => setcourse(course)}
+              />
           </View>
           <View style={STYLES.btnPrimary}>
-            <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 18}}>
+            <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 18}} onPress={Record}>
               Save Record
             </Text>
           </View>
